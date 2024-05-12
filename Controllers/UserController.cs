@@ -11,6 +11,6 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
-    [HttpGet("/get")]
+    [HttpGet("get")]
     public IActionResult TestUser() => Ok("Shit works :)");
 }
