@@ -6,5 +6,11 @@ namespace TTDL_Backend.Services
         {
             return new(1, "Boe");
         }
+
+        public User RegisterUser(string user)
+        {
+            return new(2, user);
+        }
+        
     }
 }

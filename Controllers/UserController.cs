@@ -16,6 +16,9 @@ namespace TTDL_Backend.Controllers
 
         [HttpGet("get")]
         public IActionResult TestUser() => Ok(_userService.GetUser());
+
+        [HttpPost("post")]
+        public IActionResult RegisterUser([FromBody] string user) => Ok(_userService.RegisterUser(user));
     }
 }
 

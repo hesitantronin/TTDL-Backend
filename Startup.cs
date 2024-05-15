@@ -1,15 +1,10 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using TTDL_Backend.Services;
+using TTDL_Backend.Tests.Services;
 
 namespace TTDL_Backend
 {
     public class Startup
     {
-
 
         public Startup(IConfiguration configuration)
         {
@@ -24,8 +19,16 @@ namespace TTDL_Backend
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            // Register the UserService with the dependency injection container
-            services.AddScoped<IUserservice, Userservice>();
+            // Conditionally add the service or the test service
+            if (Configuration.GetValue<bool>("testing"))
+            {
+                services.AddScoped<IUserservice, Testuserservice>();
+            }
+
+            else
+            {
+                services.AddScoped<IUserservice, Userservice>();
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -34,8 +37,10 @@ namespace TTDL_Backend
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TTDL_API"));
+                
             }
+
             else
             {
                 app.UseExceptionHandler("/Home/Error");
