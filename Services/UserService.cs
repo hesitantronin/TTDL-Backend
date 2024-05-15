@@ -1,7 +1,10 @@
-public class UserService : IUserservice
+namespace TTDL_Backend.Services
 {
-    public User GetUser()
+    public class Userservice : IUserservice
     {
-        throw new NotImplementedException();
+        public User GetUser()
+        {
+            return new(1, "Boe");
+        }
     }
 }

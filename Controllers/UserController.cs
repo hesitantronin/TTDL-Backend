@@ -1,16 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
+using TTDL_Backend.Services;
 
-[ApiController]
-[Route("api/users")]
-public class UserController : ControllerBase
+namespace TTDL_Backend.Controllers
 {
-    private readonly IUserservice _userService;
-
-    public UserController(IUserservice userService)
+    [ApiController]
+    [Route("api/users")]
+    public class UserController : ControllerBase
     {
-        _userService = userService;
-    }
+        private readonly IUserservice _userService;
 
-    [HttpGet("get")]
-    public IActionResult TestUser() => Ok("Shit works :)");
+        public UserController(IUserservice userService)
+        {
+            _userService = userService;
+        }
+
+        [HttpGet("get")]
+        public IActionResult TestUser() => Ok(_userService.GetUser());
+    }
 }
+

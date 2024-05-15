@@ -1,8 +1,7 @@
-public interface IUserservice
+namespace TTDL_Backend.Services
 {
-    public User GetUser();
+    public interface IUserservice
+    {
+        public User GetUser();
+    }
 }
-
-
-
-
