@@ -11,7 +11,7 @@ namespace TTDL_Backend.Tests.Services
 
         public string isEndpointOnline(int responseCode)
         {
-            if(responseCode != 200) return "this endpoint is currently not availabele...";
+            if(responseCode != 200) return "this endpoint is currently not available...";
 
             return "this endpoint is ready!";
         }

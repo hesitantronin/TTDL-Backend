@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>TTDL_Backend</RootNamespace>
+    <IntermediateOutPath>src/obj</IntermediateOutPath>
   </PropertyGroup>
 
   <ItemGroup>

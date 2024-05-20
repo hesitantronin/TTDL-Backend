@@ -1,0 +1,41 @@
+services:
+  ttdl_postgres:
+    container_name: ttdl_database
+    image: postgres:16.2
+    ports:
+      - "25432:5432"
+    environment:
+      POSTGRES_DB: "TTDL_Ortho"
+      POSTGRES_USER: "TTDL_Ortho"
+      POSTGRES_PASSWORD: "TTDL_pw"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      ttdl_network:
+        aliases:
+          - postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ttdl_backend:
+    container_name: ttdl_backend
+    build:
+      context: ./src/bin/Debug/net6.0
+    ports:
+      - "28080:8080"
+    depends_on:
+      ttdl_postgres:
+        condition: service_healthy
+    networks:
+      - ttdl_network
+    command: ["./wait-for-it.sh", "ttdl_postgres:5432", "--", "dotnet", "YourBackendApp.dll"]
+
+
+volumes:
+  pgdata:
+
+networks:
+  ttdl_network:
