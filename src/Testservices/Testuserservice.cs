@@ -1,19 +1,18 @@
+using TTDL_Backend.Models;
 using TTDL_Backend.Services;
 
 namespace TTDL_Backend.Tests.Services
 {
     public class Testuserservice : IUserservice
     {
-
-        public User GetUser() => new(1 , "TESTUSER");
-
-        public User RegisterUser(string user = "kees") => new(1, user);
-
-        public string isEndpointOnline(int responseCode)
+        public User GetUser()
         {
-            if(responseCode != 200) return "this endpoint is currently not available...";
+            throw new NotImplementedException();
+        }
 
-            return "this endpoint is ready!";
+        public User RegisterUser(string Uname, string Password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

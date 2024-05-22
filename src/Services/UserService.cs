@@ -1,16 +1,17 @@
+using TTDL_Backend.Models;
+
 namespace TTDL_Backend.Services
 {
     public class Userservice : IUserservice
     {
         public User GetUser()
         {
-            return new(1, "Boe");
+            return new("Arie", "1234");
         }
 
-        public User RegisterUser(string user)
+        public User RegisterUser(string Uname, string Password)
         {
-            return new(2, user);
+            throw new NotImplementedException();
         }
-        
     }
 }

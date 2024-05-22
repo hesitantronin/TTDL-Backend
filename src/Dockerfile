@@ -22,4 +22,5 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 WORKDIR /app
 # Copy the result of the publish from the build stage to the working dir
 COPY --from=build /app/publish .
-
+# Run application
+ENTRYPOINT ["dotnet", "TTDL-Backend.dll"]
