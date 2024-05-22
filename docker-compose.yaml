@@ -11,9 +11,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
-      ttdl_network:
-        aliases:
-          - postgres
+      - ttdl_network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
       interval: 10s
@@ -23,7 +21,8 @@ services:
   ttdl_backend:
     container_name: ttdl_backend
     build:
-      context: ./src/bin/Debug/net6.0
+      context: ./src
+      dockerfile: Dockerfile
     ports:
       - "28080:8080"
     depends_on:
@@ -31,8 +30,7 @@ services:
         condition: service_healthy
     networks:
       - ttdl_network
-    command: ["./wait-for-it.sh", "ttdl_postgres:5432", "--", "dotnet", "YourBackendApp.dll"]
-
+    command: ["./wait-for-it.sh", "ttdl_postgres:5432", "--", "dotnet", "TTDL-Backend.dll"]
 
 volumes:
   pgdata:
