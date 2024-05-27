@@ -6,7 +6,7 @@ namespace TTDL_Backend.Services
     {
         public User GetUser()
         {
-            return new("Arie", "1234");
+            return new User{};
         }
 
         public User RegisterUser(string Uname, string Password)

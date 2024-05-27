@@ -1,18 +1,18 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace TTDL_Backend.Models
 {
     public class User
     {
-        public Guid user_id { get; set; }
-        public string uname { get; set; }
+        [Key]
+        public Guid UserId { get; set; } = Guid.NewGuid();
 
-        public string password { get; set; }
-
-        public User(string Uname, string Password)
-        {
-            user_id = Guid.NewGuid();
-            uname = Uname;
-            password = Password;
-        }
-
+        [Required]
+        [MaxLength(100)]
+        public string Uname { get; set; }
+        
+        [Required]
+        [MaxLength(100)]
+        public string Password { get; set; }
     }
 }

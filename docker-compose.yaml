@@ -18,6 +18,22 @@ services:
       timeout: 5s
       retries: 5
 
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@ad.min
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - '20080:80'
+    volumes:
+      - pgAdminData:/var/lib/pgadmin
+    depends_on:
+      ttdl_postgres:
+        condition: service_healthy
+    networks:
+      - ttdl_network
+
   ttdl_backend:
     container_name: ttdl_backend
     build:
@@ -34,6 +50,7 @@ services:
 
 volumes:
   pgdata:
+  pgAdminData:
 
 networks:
   ttdl_network:

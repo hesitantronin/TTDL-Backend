@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using TTDL_Backend.Services;
 using TTDL_Backend.Tests.Services;
 
@@ -15,6 +16,9 @@ namespace TTDL_Backend
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<T_DbContext>(options =>
+                        options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
@@ -49,16 +53,29 @@ namespace TTDL_Backend
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
+            // Apply migrations/initialize db when starting application
+            try
+            {
+                using (var serviceScope = app.ApplicationServices.CreateScope())
+                {
+                    var dbContext = serviceScope.ServiceProvider.GetRequiredService<T_DbContext>();
+                    dbContext.Database.Migrate();
+                    dbContext.SeedData();
+                    
+                }
+            }
+
+            catch(Exception ex)
+            {
+                System.Console.WriteLine($"Problem seeding/creating db: {ex}");
+            }
         }
     }
 }
