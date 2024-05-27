@@ -66,9 +66,8 @@ namespace TTDL_Backend
                 using (var serviceScope = app.ApplicationServices.CreateScope())
                 {
                     var dbContext = serviceScope.ServiceProvider.GetRequiredService<T_DbContext>();
-                    dbContext.Database.Migrate();
-                    dbContext.SeedData();
-                    
+                    dbContext.Database.Migrate(); // Apply any pending migrations
+                    dbContext.SeedData(); // Seed initial data
                 }
             }
 

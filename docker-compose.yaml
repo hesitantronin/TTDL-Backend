@@ -33,6 +33,8 @@ services:
         condition: service_healthy
     networks:
       - ttdl_network
+    logging:
+      driver: none
 
   ttdl_backend:
     container_name: ttdl_backend
