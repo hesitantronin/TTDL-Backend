@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using TTDL_Backend.Models;
 using TTDL_Backend.Services;
 
 namespace TTDL_Backend.Controllers
@@ -21,7 +22,17 @@ namespace TTDL_Backend.Controllers
         public IActionResult GetUserByUname([FromQuery] string? uname = null) => Ok(_userService.GetUserByUname(uname));
 
         [HttpPost("register")]
-        public IActionResult RegisterUser([FromBody] string user, string password) => Ok(_userService.RegisterUser(user, password));
+        public IActionResult RegisterUser([FromBody] User user)
+        {
+            if (Request == null)
+            {
+                return BadRequest("Invalid request data");
+            }
+
+            var result = _userService.RegisterUser(user);
+
+            return Ok(result);
+        }
     }
 }
 

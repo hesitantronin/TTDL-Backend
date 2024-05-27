@@ -18,9 +18,9 @@ namespace TTDL_Backend.Services
             return result;
         }
 
-        public bool RegisterUser(string uname, string password)
+        public bool RegisterUser(User user)
         {
-            User newUser = new User{ Uname = uname, Password = password };
+            User newUser = user;
 
             try
             {

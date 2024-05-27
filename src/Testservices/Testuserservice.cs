@@ -10,7 +10,7 @@ namespace TTDL_Backend.Tests.Services
             throw new NotImplementedException();
         }
 
-        public bool RegisterUser(string Uname, string Password)
+        public bool RegisterUser(User user)
         {
             throw new NotImplementedException();
         }

@@ -6,6 +6,6 @@ namespace TTDL_Backend.Services
     {
         public User? GetUserByUname(string uname);
 
-        public bool RegisterUser(string Uname, string Password);
+        public bool RegisterUser(User user);
     }
 }
