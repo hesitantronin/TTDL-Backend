@@ -14,10 +14,13 @@ namespace TTDL_Backend.Controllers
             _userService = userService;
         }
 
-        [HttpGet("get")]
-        public IActionResult TestUser() => Ok(_userService.GetUser());
+        [HttpGet("test")]
+        public IActionResult test() => Ok("Je ken bij de backend :)");
 
-        [HttpPost("post")]
+        [HttpGet("getuser")]
+        public IActionResult GetUserByUname([FromQuery] string? uname = null) => Ok(_userService.GetUserByUname(uname));
+
+        [HttpPost("register")]
         public IActionResult RegisterUser([FromBody] string user, string password) => Ok(_userService.RegisterUser(user, password));
     }
 }

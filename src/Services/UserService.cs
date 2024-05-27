@@ -4,14 +4,36 @@ namespace TTDL_Backend.Services
 {
     public class Userservice : IUserservice
     {
-        public User GetUser()
+        private readonly T_DbContext _DbContext;
+
+        public Userservice(T_DbContext dbContext)
         {
-            return new User{};
+            _DbContext = dbContext;
         }
 
-        public User RegisterUser(string Uname, string Password)
+        public User? GetUserByUname(string uname)
         {
-            throw new NotImplementedException();
+            User result =_DbContext.Users.FirstOrDefault(u => u.Uname == uname);
+
+            return result;
+        }
+
+        public bool RegisterUser(string uname, string password)
+        {
+            User newUser = new User{ Uname = uname, Password = password };
+
+            try
+            {
+                _DbContext.Users.Add(newUser);
+                _DbContext.SaveChanges();
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                System.Console.WriteLine($"Error adding user to db: {ex}");
+                return false;
+            }
         }
     }
 }

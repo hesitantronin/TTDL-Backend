@@ -5,12 +5,12 @@ namespace TTDL_Backend.Tests.Services
 {
     public class Testuserservice : IUserservice
     {
-        public User GetUser()
+        public User GetUserByUname(string uname)
         {
             throw new NotImplementedException();
         }
 
-        public User RegisterUser(string Uname, string Password)
+        public bool RegisterUser(string Uname, string Password)
         {
             throw new NotImplementedException();
         }

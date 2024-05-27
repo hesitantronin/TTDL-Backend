@@ -4,8 +4,8 @@ namespace TTDL_Backend.Services
 {
     public interface IUserservice
     {
-        public User GetUser();
+        public User? GetUserByUname(string uname);
 
-        public User RegisterUser(string Uname, string Password);
+        public bool RegisterUser(string Uname, string Password);
     }
 }

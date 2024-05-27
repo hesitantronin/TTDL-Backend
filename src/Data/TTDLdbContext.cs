@@ -20,4 +20,12 @@ public class T_DbContext : DbContext
             System.Console.WriteLine("Data should be checked in now....");
         }
     }
+
+    public void ClearDb()
+    {
+        foreach (var entity in this.Model.GetEntityTypes())
+        {
+            this.Database.ExecuteSqlRaw($"DELETE FROM {entity.GetTableName()}");
+        }
+    }
 }

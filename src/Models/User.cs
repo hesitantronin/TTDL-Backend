@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using TTDL_Backend.Helpers;
 
 namespace TTDL_Backend.Models
 {
@@ -10,9 +11,15 @@ namespace TTDL_Backend.Models
         [Required]
         [MaxLength(100)]
         public string Uname { get; set; }
-        
+
+        private string _password;
+
         [Required]
         [MaxLength(100)]
-        public string Password { get; set; }
+        public string Password
+        { 
+            get => _password; 
+            set => _password = PasswordHasher.Hash(value); 
+        }
     }
 }
