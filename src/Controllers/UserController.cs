@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using TTDL_Backend.Models;
 using TTDL_Backend.Services;
@@ -42,7 +43,7 @@ namespace TTDL_Backend.Controllers
                         return BadRequest("Invalid request data");
                     }
 
-                    var result = _userService.LoginUser(uname, password);
+                    var result = new { match = _userService.LoginUser(uname, password)};
 
                     if (result == null)
                     {

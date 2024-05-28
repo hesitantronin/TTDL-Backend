@@ -28,11 +28,21 @@ namespace TTDL_Backend
             {
                 services.AddScoped<IUserservice, Testuserservice>();
             }
-
             else
             {
                 services.AddScoped<IUserservice, Userservice>();
             }
+
+            // Configure CORS
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin", builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -44,7 +54,6 @@ namespace TTDL_Backend
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TTDL_API"));
                 
             }
-
             else
             {
                 app.UseExceptionHandler("/Home/Error");
@@ -54,6 +63,10 @@ namespace TTDL_Backend
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+
+            // Enable CORS
+            app.UseCors("AllowOrigin");
+
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
@@ -70,10 +83,9 @@ namespace TTDL_Backend
                     dbContext.SeedData(); // Seed initial data
                 }
             }
-
             catch(Exception ex)
             {
-                System.Console.WriteLine($"Problem seeding/creating db: {ex}");
+                Console.WriteLine($"Problem seeding/creating db: {ex}");
             }
         }
     }
