@@ -1,4 +1,5 @@
 using TTDL_Backend.Models;
+using TTDL_Backend.Helpers;
 
 namespace TTDL_Backend.Services
 {
@@ -16,6 +17,18 @@ namespace TTDL_Backend.Services
             User result =_DbContext.Users.FirstOrDefault(u => u.Uname == uname);
 
             return result;
+        }
+
+        public bool LoginUser(string uname, string password)
+        {
+            User user = GetUserByUname(uname);
+
+            if (user != null && PasswordHasher.Check(password, user.Password))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public bool RegisterUser(User user)
