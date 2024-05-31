@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTDL-Backend", "TTDL-Backend.csproj", "{DEDA5D4E-5810-4C79-A79A-13BF16C3B2EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTDL.Backend.Tests", "..\..\TTDL.Backend.Tests\TTDL.Backend.Tests.csproj", "{551A5B04-3ADC-462F-95BC-658657541C14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{DEDA5D4E-5810-4C79-A79A-13BF16C3B2EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEDA5D4E-5810-4C79-A79A-13BF16C3B2EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEDA5D4E-5810-4C79-A79A-13BF16C3B2EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{551A5B04-3ADC-462F-95BC-658657541C14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{551A5B04-3ADC-462F-95BC-658657541C14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{551A5B04-3ADC-462F-95BC-658657541C14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{551A5B04-3ADC-462F-95BC-658657541C14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
