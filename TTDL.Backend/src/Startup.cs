@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using TTDL_Backend.Services;
-using TTDL_Backend.Tests.Services;
 
 namespace TTDL_Backend
 {
@@ -23,16 +22,6 @@ namespace TTDL_Backend
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            // Conditionally add the service or the test service
-            if (Configuration.GetValue<bool>("testing"))
-            {
-                services.AddScoped<IUserservice, Testuserservice>();
-            }
-            else
-            {
-                services.AddScoped<IUserservice, Userservice>();
-            }
-
             // Configure CORS
             services.AddCors(options =>
             {
@@ -47,12 +36,12 @@ namespace TTDL_Backend
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || 1 == 1) // Temp always show swagger, should be disabked in production
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TTDL_API"));
-                
+
             }
             else
             {

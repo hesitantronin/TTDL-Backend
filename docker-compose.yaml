@@ -39,7 +39,7 @@ services:
   ttdl_backend:
     container_name: ttdl_backend
     build:
-      context: ./src
+      context: ./TTDL.Backend/src
       dockerfile: Dockerfile
     ports:
       - "28080:8080"
