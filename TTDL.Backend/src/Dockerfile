@@ -2,7 +2,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
 # Metadata
-LABEL maintainer="Ronin van Egdom studNr.(1053927)"
 LABEL description="This image contains the backend/API of the TTDL software package"
 LABEL version="version1.0"
 

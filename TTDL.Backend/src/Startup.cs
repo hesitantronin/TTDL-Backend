@@ -22,6 +22,9 @@ namespace TTDL_Backend
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
+            services.AddScoped<IUserservice, Userservice>();
+            services.AddScoped<IMeasurementservice, MeasurementService>();
+
             // Configure CORS
             services.AddCors(options =>
             {
@@ -68,8 +71,16 @@ namespace TTDL_Backend
                 using (var serviceScope = app.ApplicationServices.CreateScope())
                 {
                     var dbContext = serviceScope.ServiceProvider.GetRequiredService<T_DbContext>();
-                    dbContext.Database.Migrate(); // Apply any pending migrations
-                    dbContext.SeedData(); // Seed initial data
+                    dbContext.Database.Migrate(); // Apply any pending migrations to the database
+
+                    foreach (var item in System.IO.Directory.GetFiles("."))
+                    {
+                        System.Console.WriteLine($"Thingy: {item}");
+                    }
+
+
+                    
+                    dbContext.SeedData("/app/Data/DataSources/CHAIR_MOCK_DATA.csv", "/app/Data/DataSources/PATIENT_MOCK_DATA.csv"); // Seed initial (mock) data
                 }
             }
             catch(Exception ex)
