@@ -12,9 +12,11 @@ namespace TTDL_Backend.Models
 
         [Required]
         [MaxLength(50)]
+        [ForeignKey("Chair")]
         public string ChairId { get; set; }
 
         [MaxLength(50)]
+        [ForeignKey("Patient")]
         public string CurrentPatientId { get; set; }
 
         [Required]
@@ -25,10 +27,7 @@ namespace TTDL_Backend.Models
 
         public bool BatteryState { get; set; }
 
-        [ForeignKey(nameof(ChairId))]
-        public Chair Chair { get; set; }
-
-        [ForeignKey(nameof(CurrentPatientId))]
-        public Patient CurrentPatient { get; set; }
+        public Chair Chair { get; set; } // Navigation property
+        public Patient CurrentPatient { get; set; } // Navigation property
     }
 }

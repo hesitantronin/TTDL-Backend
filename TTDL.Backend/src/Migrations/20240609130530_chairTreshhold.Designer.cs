@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TTDL_Backend.Migrations
 {
     [DbContext(typeof(T_DbContext))]
-    partial class T_DbContextModelSnapshot : ModelSnapshot
+    [Migration("20240609130530_chairTreshhold")]
+    partial class chairTreshhold
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,7 +32,7 @@ namespace TTDL_Backend.Migrations
                     b.Property<bool>("BatteryState")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("CurrentPatientId")
+                    b.Property<string>("PatientId")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
@@ -39,6 +41,9 @@ namespace TTDL_Backend.Migrations
                         .HasColumnType("numeric(20,0)");
 
                     b.HasKey("ChairId");
+
+                    b.HasIndex("PatientId")
+                        .IsUnique();
 
                     b.ToTable("Chairs");
                 });
@@ -85,11 +90,6 @@ namespace TTDL_Backend.Migrations
                     b.Property<string>("PatientId")
                         .HasColumnType("text");
 
-                    b.Property<string>("CurrentChairId")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -101,9 +101,6 @@ namespace TTDL_Backend.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("PatientId");
-
-                    b.HasIndex("CurrentChairId")
-                        .IsUnique();
 
                     b.ToTable("Patients");
                 });
@@ -129,6 +126,17 @@ namespace TTDL_Backend.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("TTDL_Backend.Models.Chair", b =>
+                {
+                    b.HasOne("TTDL_Backend.Models.Patient", "Patient")
+                        .WithOne("CurrentChair")
+                        .HasForeignKey("TTDL_Backend.Models.Chair", "PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+                });
+
             modelBuilder.Entity("TTDL_Backend.Models.Measurement", b =>
                 {
                     b.HasOne("TTDL_Backend.Models.Chair", "Chair")
@@ -148,23 +156,15 @@ namespace TTDL_Backend.Migrations
                     b.Navigation("CurrentPatient");
                 });
 
-            modelBuilder.Entity("TTDL_Backend.Models.Patient", b =>
-                {
-                    b.HasOne("TTDL_Backend.Models.Chair", "CurrentChair")
-                        .WithOne("CurrentPatient")
-                        .HasForeignKey("TTDL_Backend.Models.Patient", "CurrentChairId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CurrentChair");
-                });
-
             modelBuilder.Entity("TTDL_Backend.Models.Chair", b =>
                 {
-                    b.Navigation("CurrentPatient")
-                        .IsRequired();
-
                     b.Navigation("Measurements");
+                });
+
+            modelBuilder.Entity("TTDL_Backend.Models.Patient", b =>
+                {
+                    b.Navigation("CurrentChair")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

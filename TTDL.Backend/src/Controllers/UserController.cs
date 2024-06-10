@@ -17,12 +17,6 @@ namespace TTDL_Backend.Controllers
             _userService = userService;
         }
 
-        [HttpGet("test")]
-        public IActionResult test() => Ok("Je ken bij de backend :)");
-
-        [HttpGet("getuser")]
-        public IActionResult GetUserByUname([FromQuery] string? uname = null) => Ok(_userService.GetUserByUname(uname));
-
         [HttpPost("login")]
         public async Task<IActionResult> LogUserIn()
         {

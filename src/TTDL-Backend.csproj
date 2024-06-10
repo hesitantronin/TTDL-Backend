@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-    <PackageReference Include="csvhelper" Version="32.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

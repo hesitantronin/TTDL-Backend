@@ -10,13 +10,17 @@ namespace TTDL_Backend.Models
         public string ChairId { get; set; }
 
         [MaxLength(50)]
-        public string PatientId { get; set; }
+        [ForeignKey("Patient")]
+        public string? CurrentPatientId { get; set; }
 
-        public bool BatteryState { get; set; }
+        public bool LowBattery { get; set; } = true;
 
-        [ForeignKey(nameof(PatientId))]
-        public Patient Patient { get; set; }
+        public ulong WeightTreshhold { get; set; }
 
+        // Navigation property to access the current patient 
+        public Patient CurrentPatient { get; set; } // Navigation property
+
+        // Navigation property to access measurements associated with this chair
         public ICollection<Measurement> Measurements { get; set; }
     }
 }
