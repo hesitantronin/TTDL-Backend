@@ -6,6 +6,9 @@ using TTDL_Backend.Services;
 
 namespace TTDL_Backend.Controllers
 {
+    /// <summary>
+    /// The route for all measurement actions
+    /// </summary>
     [ApiController]
     [Route("api/measurements")]
     public class MeasurementController : ControllerBase
@@ -17,6 +20,10 @@ namespace TTDL_Backend.Controllers
             _measurementService = measurementservice;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("get")]
         public IActionResult GetMeasurement()
         {

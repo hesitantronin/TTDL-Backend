@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TTDL_Backend.Services;
+using Microsoft.OpenApi.Models;
 
 namespace TTDL_Backend
 {
@@ -20,7 +21,15 @@ namespace TTDL_Backend
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(
+                options => {
+                    options.SwaggerDoc("v1", new OpenApiInfo{
+                        Version = "v1",
+                        Title="Teckel Teun's Datalab API",
+                        Description="De API die gebruikt wordt door de frontend en (upcoming) de embedded."
+                    });
+                }
+            );
 
             services.AddScoped<IUserservice, Userservice>();
             services.AddScoped<IMeasurementservice, MeasurementService>();
@@ -44,7 +53,6 @@ namespace TTDL_Backend
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TTDL_API"));
-
             }
             else
             {

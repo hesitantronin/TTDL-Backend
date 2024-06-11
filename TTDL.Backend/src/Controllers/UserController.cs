@@ -6,6 +6,9 @@ using TTDL_Backend.Services;
 
 namespace TTDL_Backend.Controllers
 {
+    /// <summary>
+    /// The route for all user actions
+    /// </summary>
     [ApiController]
     [Route("api/users")]
     public class UserController : ControllerBase
@@ -17,6 +20,10 @@ namespace TTDL_Backend.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// (add summary here)
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("login")]
         public async Task<IActionResult> LogUserIn()
         {
@@ -53,6 +60,11 @@ namespace TTDL_Backend.Controllers
             }
         }
 
+        /// <summary>
+        /// (add summary here)
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost("register")]
         public IActionResult RegisterUser([FromBody] User user)
         {
