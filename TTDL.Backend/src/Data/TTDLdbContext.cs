@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq;
 using CsvHelper;
 using System.Globalization;
+using CsvHelper.Configuration;
+using System.IO;
 
 public class T_DbContext : DbContext
 {
@@ -65,13 +67,32 @@ public class T_DbContext : DbContext
 
     public void SeedChairs(string chairsDataPath)
     {
-        if (!Patients.Any())
+        if (!Chairs.Any())
         {
-            using (var reader = new StreamReader(chairsDataPath))
-            using (var csvContents = new CsvReader(reader, CultureInfo.InvariantCulture))
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                var chairs = csvContents.GetRecords<Chair>().ToList();
-                Chairs.AddRange(chairs);
+                HeaderValidated = null,
+                MissingFieldFound = null
+            };
+
+            using (var reader = new StreamReader(chairsDataPath))
+            using (var csv = new CsvReader(reader, config))
+            {
+                var chairs = csv.GetRecords<Chair>().ToList();
+
+                foreach (var chair in chairs)
+                {
+                    Chair toAdd = new Chair
+                    {
+                        ChairId = chair.ChairId,
+                        CurrentPatientId = null,
+                        LowBattery = chair.LowBattery,
+                        WeightTreshhold = chair.WeightTreshhold
+                    };
+
+                    Chairs.Add(toAdd);
+                }
+
                 SaveChanges();
             }
         }
@@ -81,11 +102,28 @@ public class T_DbContext : DbContext
     {
         if (!Patients.Any())
         {
-            using (var reader = new StreamReader(patientsDataPath))
-            using (var csvContents = new CsvReader(reader, CultureInfo.InvariantCulture))
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                var patients = csvContents.GetRecords<Patient>().ToList();
-                Patients.AddRange(patients);
+                HeaderValidated = null,
+                MissingFieldFound = null
+            };
+
+            using (var reader = new StreamReader(patientsDataPath))
+            using (var csv = new CsvReader(reader, config))
+            {
+                var patients = csv.GetRecords<Patient>().ToList();
+                foreach (var patient in patients)
+                {
+                        Patient toAdd = new Patient
+                        {
+                            PatientId = patient.PatientId,
+                            FirstName = patient.FirstName,
+                            LastName = patient.LastName,
+                            CurrentChairId = null
+                        };
+
+                        Patients.Add(toAdd);
+                }
                 SaveChanges();
             }
         }

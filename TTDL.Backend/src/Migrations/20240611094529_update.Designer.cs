@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TTDL_Backend.Migrations
 {
     [DbContext(typeof(T_DbContext))]
-    partial class T_DbContextModelSnapshot : ModelSnapshot
+    [Migration("20240611094529_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,6 +87,7 @@ namespace TTDL_Backend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("CurrentChairId")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
@@ -150,7 +153,9 @@ namespace TTDL_Backend.Migrations
                 {
                     b.HasOne("TTDL_Backend.Models.Chair", "CurrentChair")
                         .WithOne("CurrentPatient")
-                        .HasForeignKey("TTDL_Backend.Models.Patient", "CurrentChairId");
+                        .HasForeignKey("TTDL_Backend.Models.Patient", "CurrentChairId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CurrentChair");
                 });

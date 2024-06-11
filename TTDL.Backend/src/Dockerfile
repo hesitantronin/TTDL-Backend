@@ -19,6 +19,9 @@ RUN dotnet publish "TTDL-Backend.csproj" -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 # Set working directory inside container
 WORKDIR /app
+
+COPY ./Data/DataSources /app/DataSources
+
 # Copy the result of the publish from the build stage to the working dir
 COPY --from=build /app/publish .
 # Run application

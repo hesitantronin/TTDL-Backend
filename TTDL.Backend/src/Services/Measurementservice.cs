@@ -1,35 +1,81 @@
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TTDL_Backend.Models;
 
 namespace TTDL_Backend.Services
 {
-    public class MeasurementService : IMeasurementservice
+    public class MeasurementService : IMeasurementService
     {
+        private readonly T_DbContext _context;
 
-        private T_DbContext _DbContext;
-
-        public MeasurementService(T_DbContext dbContext)
+        public MeasurementService(T_DbContext context)
         {
-            _DbContext = dbContext;
+            _context = context;
         }
 
-        public bool DeleteMeasurement(string searchKey)
+        public async Task<List<Measurement>> GetMeasurements()
         {
-            if (searchKey == null) return false;
-
-            searchKey = searchKey.ToLower();
-
-            throw new NotImplementedException();
+            return await _context.Measurements.ToListAsync();
         }
 
-        public Measurement GetMeasurement(string searchKey)
+        public async Task<Measurement> GetMeasurement(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Measurements.FindAsync(id);
         }
 
-        public bool RegisterMeasurementToDatabase(Measurement measurementToRegister)
+        public async Task<int> CreateMeasurement(Measurement measurement)
         {
-            throw new NotImplementedException();
+            _context.Measurements.Add(measurement);
+            await _context.SaveChangesAsync();
+            return measurement.MeasurementId;
+        }
+
+        public async Task<bool> UpdateMeasurement(int id, Measurement measurement)
+        {
+            if (id != measurement.MeasurementId)
+            {
+                return false;
+            }
+
+            _context.Entry(measurement).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MeasurementExists(id))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return true;
+        }
+
+        public async Task<bool> DeleteMeasurement(int id)
+        {
+            var measurement = await _context.Measurements.FindAsync(id);
+            if (measurement == null)
+            {
+                return false;
+            }
+
+            _context.Measurements.Remove(measurement);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        private bool MeasurementExists(int id)
+        {
+            return _context.Measurements.Any(e => e.MeasurementId == id);
         }
     }
 }

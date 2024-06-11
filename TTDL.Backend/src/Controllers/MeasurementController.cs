@@ -1,40 +1,66 @@
-using System.Text.Json;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using TTDL_Backend.Models;
 using TTDL_Backend.Services;
 
 namespace TTDL_Backend.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/measurements")]
     public class MeasurementController : ControllerBase
     {
-        private readonly IMeasurementservice _measurementService;
+        private readonly IMeasurementService _measurementService;
 
-        public MeasurementController(IMeasurementservice measurementservice)
+        public MeasurementController(IMeasurementService measurementService)
         {
-            _measurementService = measurementservice;
+            _measurementService = measurementService;
         }
 
-        [HttpGet("get")]
-        public IActionResult GetMeasurement()
+        [HttpGet]
+        public async Task<ActionResult<List<Measurement>>> GetMeasurements()
         {
-            return Ok();
+            return await _measurementService.GetMeasurements();
         }
 
-        [HttpPost("register")]
-        public IActionResult registerMeasurement()
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Measurement>> GetMeasurement(int id)
         {
-            return Ok();
+            var measurement = await _measurementService.GetMeasurement(id);
+            if (measurement == null)
+            {
+                return NotFound();
+            }
+            return measurement;
         }
 
-        [HttpDelete("delete")]
-        public IActionResult deleteMeasurement()
+        [HttpPost]
+        public async Task<IActionResult> PostMeasurement(Measurement measurement)
         {
-            return Ok();
+            var id = await _measurementService.CreateMeasurement(measurement);
+            return CreatedAtAction("GetMeasurement", new { id }, measurement);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutMeasurement(int id, Measurement measurement)
+        {
+            var result = await _measurementService.UpdateMeasurement(id, measurement);
+            if (!result)
+            {
+                return BadRequest();
+            }
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMeasurement(int id)
+        {
+            var result = await _measurementService.DeleteMeasurement(id);
+            if (!result)
+            {
+                return NotFound();
+            }
+            return NoContent();
         }
     }
-
 }
-

@@ -16,7 +16,6 @@ namespace TTDL_Backend.Models
         [MaxLength(100)]
         public string LastName { get; set; }
 
-        [Required]
         [MaxLength(50)]
         [ForeignKey("Chair")]
         public string? CurrentChairId { get; set; }
