@@ -1,81 +1,42 @@
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TTDL_Backend.Models;
+using TTDL_Backend.Repositories;
 
 namespace TTDL_Backend.Services
 {
     public class ChairService : IChairService
     {
-        private readonly T_DbContext _context;
+        private readonly IChairRepository _chairRepository;
 
-        public ChairService(T_DbContext context)
+        public ChairService(IChairRepository chairRepository)
         {
-            _context = context;
+            _chairRepository = chairRepository;
         }
 
         public async Task<List<Chair>> GetChairs()
         {
-            return await _context.Chairs.ToListAsync();
+            return await _chairRepository.GetChairs();
         }
 
         public async Task<Chair> GetChair(string id)
         {
-            return await _context.Chairs.FindAsync(id);
+            return await _chairRepository.GetChair(id);
         }
 
         public async Task<string> CreateChair(Chair chair)
         {
-            _context.Chairs.Add(chair);
-            await _context.SaveChangesAsync();
-            return chair.ChairId;
+            return await _chairRepository.CreateChair(chair);
         }
 
         public async Task<bool> UpdateChair(string id, Chair chair)
         {
-            if (id != chair.ChairId)
-            {
-                return false;
-            }
-
-            _context.Entry(chair).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ChairExists(id))
-                {
-                    return false;
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return true;
+            return await _chairRepository.UpdateChair(id, chair);
         }
 
         public async Task<bool> DeleteChair(string id)
         {
-            var chair = await _context.Chairs.FindAsync(id);
-            if (chair == null)
-            {
-                return false;
-            }
-
-            _context.Chairs.Remove(chair);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
-        private bool ChairExists(string id)
-        {
-            return _context.Chairs.Any(e => e.ChairId == id);
+            return await _chairRepository.DeleteChair(id);
         }
     }
 }

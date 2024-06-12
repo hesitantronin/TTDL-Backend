@@ -17,10 +17,10 @@ namespace TTDL_Backend.Models
 
         public ulong WeightTreshhold { get; set; }
 
-        // Navigation property to access the current patient 
-        public Patient CurrentPatient { get; set; } // Navigation property
+        // Navigation property to access the current patient
+        public Patient? CurrentPatient { get; set; } // Navigation property
 
         // Navigation property to access measurements associated with this chair
-        public ICollection<Measurement> Measurements { get; set; }
+        public ICollection<Measurement>? Measurements { get; set; }
     }
 }

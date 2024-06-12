@@ -20,6 +20,6 @@ namespace TTDL_Backend.Models
         [ForeignKey("Chair")]
         public string? CurrentChairId { get; set; }
 
-        public Chair CurrentChair { get; set; } // Navigation property
+        public Chair? CurrentChair { get; set; } // Navigation property
     }
 }

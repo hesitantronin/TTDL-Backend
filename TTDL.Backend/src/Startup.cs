@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TTDL_Backend.Services;
 using Microsoft.OpenApi.Models;
+using TTDL_Backend.Repositories;
 
 namespace TTDL_Backend
 {
@@ -35,6 +36,10 @@ namespace TTDL_Backend
             services.AddScoped<IMeasurementService, MeasurementService>();
             services.AddScoped<IChairService, ChairService>();
             services.AddScoped<IPatientService, PatientService>();
+
+            // Register repositories
+
+            services.AddScoped<IChairRepository, ChairRepository>();
 
             // Configure CORS
             services.AddCors(options =>
