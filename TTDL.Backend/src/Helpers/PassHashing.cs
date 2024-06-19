@@ -1,6 +1,5 @@
 namespace TTDL_Backend.Helpers
 {
-    // Maybe unnecessary abstraction, but thats ok eheheh :)
     public class PasswordHasher
     {
         public static string Hash(string passToHash)

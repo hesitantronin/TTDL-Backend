@@ -61,6 +61,11 @@ public class T_DbContext : DbContext
 
     public void SeedData(string chairsPath, string patientsPath)
     {
+        if (!Users.Any())
+        {
+            Users.Add(new User{ Uname = "Arie", Password = "TeckelTeun123!"});
+        }
+        
         SeedChairs(chairsPath);
         SeedPatients(patientsPath);
     }
